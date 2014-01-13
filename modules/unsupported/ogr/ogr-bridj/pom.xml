@@ -90,13 +90,14 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <!-- Disabled tests so don't need this dependency right now
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-ogr-core</artifactId>
       <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
   </dependencies>
   
 </project>
