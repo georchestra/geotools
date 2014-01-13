@@ -79,13 +79,14 @@
       <artifactId>gdal</artifactId>
       <version>${gdal.version}</version>
     </dependency>
+    <!-- disabling tests so that builds can be done with -DskipTests.  Also will move test source dir 
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-ogr-core</artifactId>
       <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
-    </dependency>
+    </dependency>-->
   </dependencies>
   
   <properties>
