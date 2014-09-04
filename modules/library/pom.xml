@@ -45,6 +45,7 @@
   <!-- =========================================================== -->
   <modules>
     <module>main</module>
+    <module>xml</module>
   </modules>
 
 
