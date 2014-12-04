@@ -16,19 +16,27 @@
  */
 package org.geotools.xml;
 
-import java.net.URI;
-import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import org.geotools.data.ows.HTTPClient;
+import org.geotools.data.ows.HTTPResponse;
+import org.geotools.data.ows.SimpleHttpClient;
 import org.geotools.xml.handlers.xsi.IgnoreHandler;
 import org.geotools.xml.handlers.xsi.RootHandler;
 import org.geotools.xml.schema.Schema;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.URI;
+import java.net.URL;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -56,6 +64,8 @@ public class XSISAXHandler extends DefaultHandler {
     // the logger -- should be used for debugging (assuming there are bugs LOL)
     protected final static Logger logger = org.geotools.util.logging.Logging.getLogger(
             "net.refractions.xsi.sax");
+
+    private static ThreadLocal<PasswordAuthentication> auth = new InheritableThreadLocal<PasswordAuthentication>();
 
     // the stack of handers representing a portion of the parse tree
     private Stack handlers = new Stack();
@@ -310,5 +320,38 @@ public class XSISAXHandler extends DefaultHandler {
     public void setDocumentLocator(Locator locator) {
         super.setDocumentLocator(locator);
         this.locator = locator;
+    }
+
+    @Override
+    public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
+        if (systemId != null && auth.get() != null) {
+            HTTPResponse httpResponse = null;
+            try {
+                final URL uri = new URL(systemId);
+                HTTPClient client = new SimpleHttpClient();
+                client.setUser(auth.get().getUserName());
+                client.setPassword(new String(auth.get().getPassword()));
+
+                httpResponse = client.get(uri);
+
+                httpResponse.getResponseStream();
+                InputSource inputSource = new InputSource(httpResponse.getResponseStream());
+                inputSource.setSystemId(systemId);
+                inputSource.setPublicId(publicId);
+
+                return inputSource;
+            } catch (MalformedURLException e) {
+                // default to default behaviour
+            } finally {
+                if (httpResponse != null) {
+                    httpResponse.dispose();
+                }
+            }
+        }
+        return super.resolveEntity(publicId, systemId);
+    }
+
+    public static void setAuth(PasswordAuthentication auth) {
+        XSISAXHandler.auth.set(auth);
     }
 }
