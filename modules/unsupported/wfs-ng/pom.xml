@@ -49,6 +49,22 @@
     </license>
   </licenses>
 
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>georchestra</id>
+      <name>georchestra repository</name>
+      <url>scp://sdi.georchestra.org/var/www/build.georchestra.org/htdocs/maven/repository</url>
+    </repository>
+    <snapshotRepository>
+        <id>opengeo</id>
+        <uniqueVersion>false</uniqueVersion>
+        <name>OpenGeo Maven Repository</name>
+        <url>dav:http://repo.opengeo.org</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
 
   <!-- =========================================================== -->
   <!--     Developers and Contributors                             -->
@@ -169,6 +185,14 @@
         </configuration>
       </plugin>
     </plugins>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.8</version>
+      </extension>
+    </extensions>
   </build>
 
 </project>
