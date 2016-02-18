@@ -183,9 +183,9 @@ class WFSContentFeatureSource extends ContentFeatureSource {
 
         String srsName = null;
         CoordinateReferenceSystem crs = query.getCoordinateSystem();
-        if (null != crs) {
-            System.err.println("TODO: don't forget to set the query CRS");
-        }
+        //if (null != crs) {
+        //    System.err.println("TODO: don't forget to set the query CRS");
+        //}
         request.setSrsName(srsName);
         return request;
     }

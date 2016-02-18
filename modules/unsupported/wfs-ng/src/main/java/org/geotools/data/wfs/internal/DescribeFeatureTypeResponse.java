@@ -38,7 +38,7 @@ public class DescribeFeatureTypeResponse extends WFSResponse {
         try {
             File tmp = File.createTempFile(remoteTypeName.getLocalPart(), ".xsd");
             OutputStream output = new BufferedOutputStream(new FileOutputStream(tmp));
-            output = new TeeOutputStream(output, System.out);
+            //output = new TeeOutputStream(output, System.out);
             try {
                 IOUtils.copy(responseStream, output);
             } finally {

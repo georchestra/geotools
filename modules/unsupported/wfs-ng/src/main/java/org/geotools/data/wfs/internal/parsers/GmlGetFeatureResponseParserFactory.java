@@ -171,10 +171,10 @@ public class GmlGetFeatureResponseParserFactory implements WFSResponseFactory {
             while ((line = reader.readLine()) != null) {
                 head.append(line).append('\n');
             }
-            if(LOGGER.isLoggable(Level.FINER)){
-                System.err.println("Response head:");
-                System.err.println(head);
-            }
+            //if(LOGGER.isLoggable(Level.FINER)){
+            //    System.err.println("Response head:");
+            //    System.err.println(head);
+            //}
             
             pushbackIn.unread(buff, 0, readCount);
 
