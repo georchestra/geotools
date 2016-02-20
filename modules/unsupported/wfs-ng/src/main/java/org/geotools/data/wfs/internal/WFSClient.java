@@ -21,6 +21,7 @@ import org.geotools.data.wfs.internal.GetFeatureRequest.ResultType;
 import org.geotools.data.wfs.internal.v1_x.CubeWerxStrategy;
 import org.geotools.data.wfs.internal.v1_x.GeoServerPre200Strategy;
 import org.geotools.data.wfs.internal.v1_x.IonicStrategy;
+import org.geotools.data.wfs.internal.v1_x.MapServerWFSStrategy;
 import org.geotools.data.wfs.internal.v1_x.StrictWFS_1_x_Strategy;
 import org.geotools.data.wfs.internal.v2_0.StrictWFS_2_0_Strategy;
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -120,6 +121,8 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
                 strategy = new CubeWerxStrategy();
             } else if (override.equalsIgnoreCase("ionic")) {
                 strategy = new IonicStrategy();
+            } else if (override.equalsIgnoreCase("mapserver")) {
+                strategy = new MapServerWFSStrategy();
             } else {
                 LOGGER.warning("Could not handle wfs strategy override " + override
                         + " proceeding with autodetection");
@@ -177,6 +180,8 @@ public class WFSClient extends AbstractOpenWebService<WFSGetCapabilities, QName>
                 strategy = new StrictWFS_1_x_Strategy(); // new ArcGISServerStrategy();
             }
         }
+
+        // TODO: Mapserver autodetection ?
 
         if (strategy == null) {
             // use fallback strategy
